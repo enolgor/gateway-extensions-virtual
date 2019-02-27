@@ -1,0 +1,12 @@
+{
+  "statement": {
+    "name": "st01",
+    "description": "Statement 01",
+    "statement": "select * from Measurement where data.attribute.name = 'temperature' and cast(data.value, double) >= 0"
+  },
+  "execution": {
+    "name": "ex01",
+    "description": "Execution 01",
+    "execution": "var action = new Action(); action.addData(new ActionData('red-led', AttributeType.BOOLEAN, true)); context.sendAction('ar001', action);"
+  }
+}

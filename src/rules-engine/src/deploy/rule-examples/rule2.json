@@ -1,0 +1,12 @@
+{
+  "statement": {
+    "name": "st02",
+    "description": "Statement 02",
+    "statement": "select * from Measurement where data.attribute.name = 'switch'"
+  },
+  "execution": {
+    "name": "ex02",
+    "description": "Execution 02",
+    "execution": "var action = new Action(); action.addData(new ActionData('green-led', AttributeType.BOOLEAN, data.value)); context.sendAction('ar001', action);"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "description": "Create subscription orion",
+  "subject": {
+    "entities": [
+      {
+      	"id":"${entityId}",
+        "type":"${entityType}"
+      }
+    ],
+    "condition": {
+    	"attrs": []
+    }
+  },
+  "notification": {
+    "http": {
+      "url": "${subscriptionUrl}"
+    },
+    "attrsFormat": "normalized",
+    "metadata": [ "dateCreated", "dateModified" ]
+  }
+}

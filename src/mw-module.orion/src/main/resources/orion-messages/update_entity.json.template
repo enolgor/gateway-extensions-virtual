@@ -1,0 +1,7 @@
+{
+  <#list attributes as attribute>
+  "${attribute.name}": {
+  	"value": ${attribute.value},
+  	"type": "${attribute.type}"
+  }<#sep>,</#list>
+}

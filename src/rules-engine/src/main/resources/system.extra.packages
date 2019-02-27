@@ -1,0 +1,14 @@
+javax.management
+javax.management.openmbean
+javax.naming,javax.sql
+javax.xml.namespace
+javax.xml.parsers
+javax.xml.transform
+javax.xml.transform.dom
+javax.xml.transform.stream
+javax.xml.xpath
+javax.script
+org.w3c.dom
+org.w3c.dom.bootstrap
+org.xml.sax
+javax.script
