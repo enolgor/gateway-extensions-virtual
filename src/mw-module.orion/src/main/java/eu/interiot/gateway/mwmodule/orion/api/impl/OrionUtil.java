@@ -32,30 +32,29 @@
  */
 package eu.interiot.gateway.mwmodule.orion.api.impl;
 
-import java.util.HashMap;
-
 import org.osgi.framework.BundleContext;
 
-import eu.interiot.gateway.commons.api.configuration.ConfigurationService;
 import eu.interiot.gateway.commons.api.device.DeviceDefinition;
 
 public class OrionUtil {
 	
-	private static ConfigurationService configurationService;
-	private static String gatewayUuid = "default";
-	private static HashMap<String, String> entityToDevice = new HashMap<>();
+	// private static ConfigurationService configurationService;
+	// private static String gatewayUuid = "default";
+	// private static HashMap<String, String> entityToDevice = new HashMap<>();
 	
 	public static void configure(BundleContext context) {
-		OrionUtil.configurationService = context.getService(context.getServiceReference(ConfigurationService.class));
+		// OrionUtil.configurationService = context.getService(context.getServiceReference(ConfigurationService.class));
 	}
 	
 	public static String getEntityId(String deviceId) {
+		return deviceId;
+		/*
 		if(OrionUtil.gatewayUuid.equals("default")) {
 			OrionUtil.gatewayUuid = configurationService.get("gateway.uuid", "default");
 		}
 		String orionDeviceId = "gw-" + OrionUtil.gatewayUuid + "-" + deviceId;
 		OrionUtil.entityToDevice.put(orionDeviceId, deviceId);
-		return orionDeviceId;
+		return orionDeviceId;*/
 	}
 	
 	public static String getEntityType(DeviceDefinition device) {
@@ -63,6 +62,7 @@ public class OrionUtil {
 	}
 	
 	public static String getDeviceId(String entityId) {
-		return entityToDevice.get(entityId);
+		return entityId;
+		// return entityToDevice.get(entityId);
 	}
 }

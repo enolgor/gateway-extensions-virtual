@@ -41,6 +41,7 @@ import org.apache.logging.log4j.Logger;
 import eu.interiot.gateway.commons.api.configuration.ConfigurationService;
 import eu.interiot.gateway.commons.api.device.DeviceDefinition;
 import eu.interiot.gateway.commons.api.device.Measurement;
+import eu.interiot.gateway.commons.virtual.api.remote.PhysicalRemoteGatewayService;
 import eu.interiot.gateway.mwcontroller.api.MWMessage;
 import eu.interiot.gateway.mwcontroller.api.MWModule;
 import jodd.http.HttpRequest;
@@ -55,7 +56,8 @@ public class OrionMWModule implements MWModule{
 
 	public OrionMWModule(ConfigurationService configurationService) {
 		String fiwareService = configurationService.get("fiware-service", "interiot");
-		String fiwareServicePath = configurationService.get("fiware-servicepath", "/gateway");
+		String fiwareServicePath = PhysicalRemoteGatewayService.instance().getRemoteInfo().getUUID();
+		// String fiwareServicePath = configurationService.get("fiware-servicepath", "/gateway");
 		String protocol = configurationService.get("protocol", "http");
 		String host = configurationService.get("host", "localhost");
 		int port = configurationService.getInt("port", 1026);
