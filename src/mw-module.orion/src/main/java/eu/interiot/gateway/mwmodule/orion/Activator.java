@@ -37,6 +37,7 @@ import org.osgi.framework.BundleContext;
 
 import eu.interiot.gateway.commons.api.configuration.ConfigurationService;
 import eu.interiot.gateway.commons.virtual.api.ApiRouter;
+import eu.interiot.gateway.commons.virtual.api.remote.PhysicalRemoteGatewayService;
 import eu.interiot.gateway.mwcontroller.api.MWRegistryService;
 import eu.interiot.gateway.mwmodule.orion.api.OrionApi;
 import eu.interiot.gateway.mwmodule.orion.api.impl.Notifier;
@@ -47,11 +48,12 @@ public class Activator implements BundleActivator{
 
 	@Override
 	public void start(BundleContext context) throws Exception {
-		ConfigurationService configurationService = context.getService(context.getServiceReference(ConfigurationService.class));		
+		ConfigurationService configurationService = context.getService(context.getServiceReference(ConfigurationService.class));	
+		PhysicalRemoteGatewayService physicalGateway = context.getService(context.getServiceReference(PhysicalRemoteGatewayService.class));
 		OrionUtil.configure(context);
 		Notifier.configure(context);
 		MWRegistryService mwRegistryService = context.getService(context.getServiceReference(MWRegistryService.class));
-		mwRegistryService.setMWModule(new OrionMWModule(configurationService));
+		mwRegistryService.setMWModule(new OrionMWModule(configurationService, physicalGateway));
 		context.getService(context.getServiceReference(ApiRouter.class)).addClass(OrionApi.class);
 	}
 

@@ -54,9 +54,9 @@ public class OrionMWModule implements MWModule{
 	private HttpRequest baseRequest;
 	private String subscriptionUrl;
 
-	public OrionMWModule(ConfigurationService configurationService) {
+	public OrionMWModule(ConfigurationService configurationService, PhysicalRemoteGatewayService physicalGateway) {
 		String fiwareService = configurationService.get("fiware-service", "interiot");
-		String fiwareServicePath = PhysicalRemoteGatewayService.instance().getRemoteInfo().getUUID().replaceAll("-", "");
+		String fiwareServicePath = "/" + physicalGateway.getRemoteInfo().getUUID().replaceAll("-", "");
 		// String fiwareServicePath = configurationService.get("fiware-servicepath", "/gateway");
 		String protocol = configurationService.get("protocol", "http");
 		String host = configurationService.get("host", "localhost");
