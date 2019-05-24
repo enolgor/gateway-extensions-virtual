@@ -56,7 +56,7 @@ public class OrionMWModule implements MWModule{
 
 	public OrionMWModule(ConfigurationService configurationService, PhysicalRemoteGatewayService physicalGateway) {
 		String fiwareService = configurationService.get("fiware-service", "interiot");
-		String fiwareServicePath = "/" + physicalGateway.getRemoteInfo().getUUID().replaceAll("-", "");
+		// String fiwareServicePath = "/" + physicalGateway.getRemoteInfo().getUUID().replaceAll("-", "");
 		// String fiwareServicePath = configurationService.get("fiware-servicepath", "/gateway");
 		String protocol = configurationService.get("protocol", "http");
 		String host = configurationService.get("host", "localhost");
@@ -68,8 +68,7 @@ public class OrionMWModule implements MWModule{
 		this.baseRequest = new HttpRequest()
 				.protocol(protocol).host(host).port(port)
 				.header("Content-Type", "application/json")
-				.header("Fiware-Service", fiwareService)
-				.header("Fiware-ServicePath", fiwareServicePath);
+				.header("Fiware-Service", fiwareService);
 	}
 	
 	@Override
@@ -81,7 +80,8 @@ public class OrionMWModule implements MWModule{
 		message.set("entityId", OrionUtil.getEntityId(device.getId()));
 		message.set("entityType", OrionUtil.getEntityType(device));
 		message.set("attributes", attributeList);
-		HttpResponse response = baseRequest.method("POST").path("/v2/entities").body(message.process()).send();
+		// HttpResponse response = baseRequest.method("POST").path("/v2/entities").body(message.process()).send();
+		HttpResponse response = baseRequest.header("Fiware-ServicePath", OrionUtil.getFiwareServicePath()).method("POST").path("/v2/entities").body(message.process()).send();
 		log.info(String.format("REQUEST CREATE ENTITY %s : %d", OrionUtil.getEntityId(device.getId()), response.statusCode()));
 		this.subscribe(device);
 	}
@@ -98,7 +98,7 @@ public class OrionMWModule implements MWModule{
 		message.set("entityType", OrionUtil.getEntityType(device)); 
 		message.set("subscriptionUrl", this.subscriptionUrl);
 		//System.out.println(message.process());
-		HttpResponse response = baseRequest.method("POST").path("/v2/subscriptions").body(message.process()).send();
+		HttpResponse response = baseRequest.header("Fiware-ServicePath", OrionUtil.getFiwareServicePath()).method("POST").path("/v2/subscriptions").body(message.process()).send();
 		log.info(String.format("REQUEST SUBSCRIBE ENTITY %s : %d", OrionUtil.getEntityId(device.getId()), response.statusCode()));
 	}
 
@@ -107,7 +107,7 @@ public class OrionMWModule implements MWModule{
 		List<OrionEntityAttribute> attributeList = measurement.getData().stream().map(data -> new OrionEntityAttribute(data.getAttribute(), data.getValue().toString())).collect(Collectors.toList());
 		MWMessage message = OrionMessage.UPDATE_ENTITY.getMessageInstance();
 		message.set("attributes", attributeList);
-		HttpResponse response = baseRequest.method("PATCH").path("/v2/entities/" + OrionUtil.getEntityId(deviceId) + "/attrs").body(message.process()).send();
+		HttpResponse response = baseRequest.header("Fiware-ServicePath", OrionUtil.getFiwareServicePath()).method("PATCH").path("/v2/entities/" + OrionUtil.getEntityId(deviceId) + "/attrs").body(message.process()).send();
 		log.info("REQUEST UPDATE ENTITY: " + response.statusCode() + "\n" + response.bodyText());
 	}
 	

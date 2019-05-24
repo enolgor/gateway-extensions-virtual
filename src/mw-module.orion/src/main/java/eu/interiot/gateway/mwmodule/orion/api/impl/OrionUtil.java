@@ -35,6 +35,8 @@ package eu.interiot.gateway.mwmodule.orion.api.impl;
 import org.osgi.framework.BundleContext;
 
 import eu.interiot.gateway.commons.api.device.DeviceDefinition;
+import eu.interiot.gateway.commons.api.gateway.GatewayInfo;
+import eu.interiot.gateway.commons.virtual.api.remote.PhysicalRemoteGatewayService;
 
 public class OrionUtil {
 	
@@ -42,8 +44,11 @@ public class OrionUtil {
 	// private static String gatewayUuid = "default";
 	// private static HashMap<String, String> entityToDevice = new HashMap<>();
 	
+	private static PhysicalRemoteGatewayService physicalGateway;
+	
 	public static void configure(BundleContext context) {
 		// OrionUtil.configurationService = context.getService(context.getServiceReference(ConfigurationService.class));
+		OrionUtil.physicalGateway = context.getService(context.getServiceReference(PhysicalRemoteGatewayService.class));
 	}
 	
 	public static String getEntityId(String deviceId) {
@@ -64,5 +69,10 @@ public class OrionUtil {
 	public static String getDeviceId(String entityId) {
 		return entityId;
 		// return entityToDevice.get(entityId);
+	}
+	
+	public static String getFiwareServicePath() {
+		GatewayInfo info = OrionUtil.physicalGateway.getRemoteInfo();
+		return info == null ? "/gateway" : "/" + info.getUUID().replaceAll("-", "");
 	}
 }
